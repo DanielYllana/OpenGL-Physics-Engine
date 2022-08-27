@@ -1,6 +1,7 @@
 
 #include<math.h>
-#include "../OpenGL/Model.h"
+#include "../../OpenGL/Model.h"
+#include "glm/gtx/string_cast.hpp"
 
 
 const unsigned int width = 800;
@@ -48,7 +49,22 @@ float randf()
 	return -1.0f + (rand() / (RAND_MAX / 2.0f));
 }
 
-int AsteroidDemo()
+int main3() {
+
+	glm::vec3 translation = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::mat4 trans = glm::mat4(1.0f);
+	trans = glm::translate(trans, translation);
+
+	std::cout << glm::to_string(trans) << std::endl;
+
+	glm::vec3 aPos = glm::vec3(2.0f, 1.5f, 3.4f);
+
+	std::cout << glm::to_string(glm::vec3(trans * glm::vec4(aPos, 1.0f)));
+	return 0;
+}
+
+
+int main()
 {
 	// Initialize GLFW
 	glfwInit();
@@ -86,7 +102,7 @@ int AsteroidDemo()
 	// Generates Shader objects
 	Shader shaderProgram("resources/shaders/default.vert", "resources/shaders/default.frag");
 	Shader skyboxShader("resources/shaders/skybox.vert", "resources/shaders/skybox.frag");
-	Shader asteroidShader("resources/shaders/asteroid.vert", "resources/shaders/default.frag");
+	Shader asteroidShader("resources/shaders/instancing.vert", "resources/shaders/default.frag");
 
 	// Take care of all the light related things
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -215,11 +231,11 @@ int AsteroidDemo()
 
 
 	// The number of asteroids to be created
-	const unsigned int number = 50000;
+	const unsigned int number = 15000;
 	// Radius of circle around which asteroids orbit
 	float radius = 100.0f;
 	// How much ateroids deviate from the radius
-	float radiusDeviation = 100.0f;
+	float radiusDeviation = 25.0f;
 
 	// Holds all transformations for the asteroids
 	std::vector <glm::mat4> instanceMatrix;
@@ -297,6 +313,8 @@ int AsteroidDemo()
 			//camera.Inputs(window);
 		}
 
+
+
 		// Specify the color of the background
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		// Clean the back buffer and depth buffer
@@ -310,8 +328,14 @@ int AsteroidDemo()
 
 		// Draw jupiter
 		jupiter.Draw(shaderProgram, camera);
+
+		// Rotate asteroids
+		float rotAngle = glfwGetTime() * 0.2f;
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::rotate(model, rotAngle, glm::vec3(glfwGetTime() * 0.1f, glfwGetTime() * 0.3f, 0.0f));
+		model = glm::translate(model, glm::vec3(rotAngle, -3.0f, 0.0f));
 		// Draw the asteroids
-		asteroid.Draw(asteroidShader, camera);
+		asteroid.Draw(asteroidShader, camera, model);
 
 
 		// Since the cubemap will always have a depth of 1.0, we need that equal sign so it doesn't get discarded

@@ -28,12 +28,33 @@
     <Filter Include="Header Files\OpenGL">
       <UniqueIdentifier>{67c2613b-a568-48a9-88e7-ebbeba6685ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\cyclone">
+      <UniqueIdentifier>{4df0184a-0238-45b8-b057-8ac2af668e85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cyclone">
+      <UniqueIdentifier>{d0d1ea17-1e12-4799-8c6c-863e9d33fa86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\demos\GL-Demo">
+      <UniqueIdentifier>{6bfcd2ae-177b-406b-b21e-fe9a96f6ac60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\demos\Physics-Demo">
+      <UniqueIdentifier>{8a67f7b3-57cd-4e9c-a586-226934238bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\demos">
+      <UniqueIdentifier>{0d465eda-78bf-4c7f-935e-c1d12f9e804c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\demos\Physics-Demo">
+      <UniqueIdentifier>{c94e4250-621b-4b6c-97e2-702de2e8eed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\helper">
+      <UniqueIdentifier>{3226d917-6354-4dcc-b232-f792268233a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\helper">
+      <UniqueIdentifier>{e6211150-78ba-444e-82c0-20a389728638}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\OpenGL\Camera.cpp">
@@ -63,14 +84,29 @@
     <ClCompile Include="src\OpenGL\VBO.cpp">
       <Filter>Source Files\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\demos\Model-Demo.cpp">
-      <Filter>Source Files\demos</Filter>
+    <ClCompile Include="src\cyclone\particle.cpp">
+      <Filter>Source Files\cyclone</Filter>
     </ClCompile>
-    <ClCompile Include="src\demos\Instancing-AsteroidDemo.cpp">
-      <Filter>Source Files\demos</Filter>
+    <ClCompile Include="src\demos\Physics-Demo\Ballistic-Demo.cpp">
+      <Filter>Source Files\demos\Physics-Demo</Filter>
     </ClCompile>
-    <ClCompile Include="src\demos\Lighting-Demo.cpp">
-      <Filter>Source Files\demos</Filter>
+    <ClCompile Include="src\demos\GL-Demo\Instancing-AsteroidDemo.cpp">
+      <Filter>Source Files\demos\GL-Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\demos\GL-Demo\Lighting-Demo.cpp">
+      <Filter>Source Files\demos\GL-Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\demos\GL-Demo\Model-Demo.cpp">
+      <Filter>Source Files\demos\GL-Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\demos\Physics-Demo\DemoLauncher.cpp">
+      <Filter>Source Files\demos\Physics-Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGL\Lights.cpp">
+      <Filter>Source Files\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\extra\helper.cpp">
+      <Filter>Source Files\helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,7 +128,7 @@
     <None Include="resources\shaders\skybox.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="resources\shaders\asteroid.vert">
+    <None Include="resources\shaders\instancing.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -125,6 +161,27 @@
     </ClInclude>
     <ClInclude Include="src\OpenGL\VBO.h">
       <Filter>Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cyclone\core.h">
+      <Filter>Header Files\cyclone</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cyclone\particle.h">
+      <Filter>Header Files\cyclone</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cyclone\precision.h">
+      <Filter>Header Files\cyclone</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cyclone\cyclone.h">
+      <Filter>Header Files\cyclone</Filter>
+    </ClInclude>
+    <ClInclude Include="src\demos\Physics-Demo\Ballistic-Demo.h">
+      <Filter>Header Files\demos\Physics-Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGL\Lights.h">
+      <Filter>Header Files\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\extra\helper.h">
+      <Filter>Header Files\helper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

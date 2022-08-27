@@ -148,12 +148,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="src\demos\Instancing-AsteroidDemo.cpp" />
-    <ClCompile Include="src\demos\Lighting-Demo.cpp" />
-    <ClCompile Include="src\demos\Model-Demo.cpp" />
+    <ClCompile Include="src\cyclone\particle.cpp" />
+    <ClCompile Include="src\demos\GL-Demo\Instancing-AsteroidDemo.cpp" />
+    <ClCompile Include="src\demos\GL-Demo\Lighting-Demo.cpp" />
+    <ClCompile Include="src\demos\GL-Demo\Model-Demo.cpp" />
+    <ClCompile Include="src\demos\Physics-Demo\Ballistic-Demo.cpp" />
+    <ClCompile Include="src\demos\Physics-Demo\DemoLauncher.cpp" />
+    <ClCompile Include="src\extra\helper.cpp" />
     <ClCompile Include="src\OpenGL\Camera.cpp" />
     <ClCompile Include="src\OpenGL\EBO.cpp" />
+    <ClCompile Include="src\OpenGL\Lights.cpp" />
     <ClCompile Include="src\OpenGL\Mesh.cpp" />
     <ClCompile Include="src\OpenGL\Model.cpp" />
     <ClCompile Include="src\OpenGL\shaderClass.cpp" />
@@ -163,7 +167,7 @@
     <ClCompile Include="src\OpenGL\VBO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\shaders\asteroid.vert" />
+    <None Include="resources\shaders\instancing.vert" />
     <None Include="resources\shaders\default.frag" />
     <None Include="resources\shaders\default.vert" />
     <None Include="resources\shaders\light.frag" />
@@ -175,8 +179,15 @@
     <Image Include="resources\textures\pop_cat.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\cyclone\core.h" />
+    <ClInclude Include="src\cyclone\cyclone.h" />
+    <ClInclude Include="src\cyclone\particle.h" />
+    <ClInclude Include="src\cyclone\precision.h" />
+    <ClInclude Include="src\demos\Physics-Demo\Ballistic-Demo.h" />
+    <ClInclude Include="src\extra\helper.h" />
     <ClInclude Include="src\OpenGL\Camera.h" />
     <ClInclude Include="src\OpenGL\EBO.h" />
+    <ClInclude Include="src\OpenGL\Lights.h" />
     <ClInclude Include="src\OpenGL\Mesh.h" />
     <ClInclude Include="src\OpenGL\Model.h" />
     <ClInclude Include="src\OpenGL\shaderClass.h" />

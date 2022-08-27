@@ -25,7 +25,7 @@ out vec2 texCoord;
 
 // Imports the camera matrix
 uniform mat4 camMatrix;
-
+uniform mat4 manipulation;
 
 void main()
 {
@@ -39,5 +39,5 @@ void main()
 	texCoord = mat2(0.0, -1.0, 1.0, 0.0) * aTex;
 	
 	// Outputs the positions/coordinates of all vertices
-	gl_Position = camMatrix * vec4(crntPos, 1.0);
+	gl_Position = camMatrix * manipulation * vec4(crntPos, 1.0);
 }

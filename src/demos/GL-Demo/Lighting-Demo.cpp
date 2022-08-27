@@ -1,14 +1,13 @@
-#include "../OpenGL/Mesh.h"
+#include "../../OpenGL/Mesh.h"
 
 
 const unsigned int width = 800;
 const unsigned int height = 800;
 
 
-void LightingDemo();
 
 // Vertices coordinates
-Vertex vertices[] =
+Vertex verticesLightingDemo[] =
 { //               COORDINATES           /            COLORS          /           TexCoord         /       NORMALS         //
 	Vertex{glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
 	Vertex{glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
@@ -17,7 +16,7 @@ Vertex vertices[] =
 };
 
 // Indices for vertices order
-GLuint indices[] =
+GLuint indicesLightingDemo[] =
 {
 	0, 1, 2,
 	0, 2, 3
@@ -25,7 +24,7 @@ GLuint indices[] =
 
 
 
-Vertex lightVertices[] =
+Vertex lightVerticesLightingDemo[] =
 { //     COORDINATES     //
 	Vertex{glm::vec3(-0.1f, -0.1f,  0.1f)},
 	Vertex{glm::vec3(-0.1f, -0.1f, -0.1f)},
@@ -37,7 +36,7 @@ Vertex lightVertices[] =
 	Vertex{glm::vec3(0.1f,  0.1f,  0.1f)}
 };
 
-GLuint lightIndices[] =
+GLuint lightIndicesLightingDemo[] =
 {
 	0, 1, 2,
 	0, 2, 3,
@@ -102,8 +101,8 @@ int LightingDemo()
 
 
 	// Store mesh data in vectors for the mesh
-	std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
-	std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
+	std::vector <Vertex> verts(verticesLightingDemo, verticesLightingDemo + sizeof(verticesLightingDemo) / sizeof(Vertex));
+	std::vector <GLuint> ind(indicesLightingDemo, indicesLightingDemo + sizeof(indicesLightingDemo) / sizeof(GLuint));
 	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
 
 	// Create floor mesh
@@ -113,8 +112,8 @@ int LightingDemo()
 	// Shader for ligh cube
 	Shader lightShader("resources/shaders/light.vert", "resources/shaders/light.frag");
 	// Store mesh data in vectors for the mesh
-	std::vector <Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
-	std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
+	std::vector <Vertex> lightVerts(lightVerticesLightingDemo, lightVerticesLightingDemo + sizeof(lightVerticesLightingDemo) / sizeof(Vertex));
+	std::vector <GLuint> lightInd(lightIndicesLightingDemo, lightIndicesLightingDemo + sizeof(lightIndicesLightingDemo) / sizeof(GLuint));
 	// Create ligh mesh
 	Mesh light(lightVerts, lightInd, tex);
 
@@ -178,7 +177,7 @@ int LightingDemo()
 
 	// Delete all the objects we've created
 	shaderProgram.Delete();
-	//lightShader.Delete();
+	lightShader.Delete();
 
 
 	// Delete window before ending the program

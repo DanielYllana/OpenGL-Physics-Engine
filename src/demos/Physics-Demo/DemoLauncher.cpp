@@ -1,14 +1,12 @@
-#include "../OpenGL/Mesh.h"
-#include "../OpenGL/Model.h"
+#include "../../OpenGL/Mesh.h"
+#include "../Physics-Demo/Ballistic-Demo.h"
+#include "../../OpenGL/Lights.h"
 
 
-const unsigned int width = 800;
-const unsigned int height = 800;
+const int width = 800, height = 800;
 
-
-
-int ModelDemo()
-{
+int launcher()
+{	
 	// Initialize GLFW
 	glfwInit();
 
@@ -20,8 +18,9 @@ int ModelDemo()
 	// So that means we only have the modern functions
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+
 	// Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
-	GLFWwindow* window = glfwCreateWindow(width, height, "YoutubeOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(width, height, "Cyclone > Ballistic Demo", NULL, NULL);
 	// Error check if the window fails to create
 	if (window == NULL)
 	{
@@ -29,6 +28,7 @@ int ModelDemo()
 		glfwTerminate();
 		return -1;
 	}
+
 	// Introduce the window into the current context
 	glfwMakeContextCurrent(window);
 
@@ -38,24 +38,16 @@ int ModelDemo()
 	// In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800
 	glViewport(0, 0, width, height);
 
+	
+	BallisticDemo demo;
 
-	// Generates Shader object using shaders default.vert and default.frag
-	Shader shaderProgram("resources/shaders/default.vert", "resources/shaders/default.frag");
+	Lights lightSource;
+	lightSource.init();
+
+	demo.init(lightSource);
 
 
 	
-
-	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
-	glm::mat4 lightModel = glm::mat4(1.0f);
-	lightModel = glm::translate(lightModel, lightPos);
-
-
-	shaderProgram.Activate();
-	//glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(objectModel));
-	glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
-
 
 	// Enables the Depth Buffer
 	glEnable(GL_DEPTH_TEST);
@@ -63,11 +55,6 @@ int ModelDemo()
 	// Creates camera object
 	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
-
-	// Load in a model
-	Model model("resources/models/map/scene.gltf");
-
-	Model model2("resources/models/sword/scene.gltf");
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
@@ -82,10 +69,10 @@ int ModelDemo()
 		// Updates and exports the camera matrix to the Vertex Shader
 		camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
-		// Draw a model
-		model.Draw(shaderProgram, camera);
-		model2.Draw(shaderProgram, camera);
 
+		demo.update();
+		demo.display(camera);
+		lightSource.display(camera);
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
@@ -96,13 +83,23 @@ int ModelDemo()
 
 
 	// Delete all the objects we've created
-	shaderProgram.Delete();
-	//lightShader.Delete();
-
+	demo.destroy();
+	lightSource.destroy();
 
 	// Delete window before ending the program
 	glfwDestroyWindow(window);
 	// Terminate GLFW before ending the program
 	glfwTerminate();
+
 	return 0;
+}
+
+
+
+int main2()
+{
+	return launcher();
+
+
+
 }
