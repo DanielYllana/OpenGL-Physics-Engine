@@ -4,7 +4,7 @@
 
 
 
-// Vertices coordinates
+/* Vertices coordinates
 Vertex verticesBallisticDemo[] =
 { //               COORDINATES           /            COLORS          /           TexCoord         /       NORMALS         //
 	Vertex{glm::vec3(-0.1f+2.0f, 0.5f + 2.0f,  0.1f + 2.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
@@ -15,6 +15,19 @@ Vertex verticesBallisticDemo[] =
 	Vertex{glm::vec3(-0.1f + 2.0f,  0.7f + 2.0f, -0.1f + 2.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
 	Vertex{glm::vec3(0.1f + 2.0f,  0.7f + 2.0f, -0.1f + 2.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
 	Vertex{glm::vec3(0.1f + 2.0f,  0.7f + 2.0f,  0.1f + 2.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)}
+};
+*/
+
+Vertex verticesBallisticDemo[] =
+{ //               COORDINATES           /            COLORS          /           TexCoord         /       NORMALS         //
+	Vertex{glm::vec3(-0.1f , 0.5f,  0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
+	Vertex{glm::vec3(-0.1f, 0.5f, -0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
+	Vertex{glm::vec3(0.1f, 0.5f, -0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
+	Vertex{glm::vec3(0.1f, 0.5f,  0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f)},
+	Vertex{glm::vec3(-0.1f,  0.7f,  0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
+	Vertex{glm::vec3(-0.1f,  0.7f, -0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
+	Vertex{glm::vec3(0.1f,  0.7f, -0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
+	Vertex{glm::vec3(0.1f,  0.7f,  0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)}
 };
 
 // Indices for vertices order
@@ -37,6 +50,23 @@ GLuint indicesBallisticDemo[] =
 
 
 
+void BallisticDemo::Inputs(GLFWwindow* window)
+{
+	if (!canFire)
+	{
+		if (glfwGetKey(window, GLFW_KEY_F) == GLFW_RELEASE)
+		{
+			canFire = true;
+		}
+	} else
+	{
+		if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+		{
+			canFire = false;
+			fire();
+		}
+	}
+}
 
 
 
@@ -59,6 +89,8 @@ void BallisticDemo::destroy()
 
 void BallisticDemo::fire()
 {
+
+	std::cout << "Fire" << std::endl;
 	AmmoRound* shot;
 
 	// Find the first available round
@@ -73,6 +105,7 @@ void BallisticDemo::fire()
 	switch (currentShotType)
 	{
 	case BallisticDemo::ShotType::PISTOL:
+		std::cout << "shotType PISTOL" << std::endl;
 		shot->particle.setMass(2.0f); // 2.0kg
 		shot->particle.setVelocity(0.0f, 0.0f, 35.0f); // 35m/s
 		shot->particle.setAcceleration(0.0f, -1.0f, 0.0f);
@@ -80,6 +113,7 @@ void BallisticDemo::fire()
 		break;
 
 	case BallisticDemo::ShotType::ARTILLERY:
+		std::cout << "shotType ARTILLERY" << std::endl;
 		shot->particle.setMass(200.0f); // 200.0kg
 		shot->particle.setVelocity(0.0f, 30.0f, 40.0f); // 50m/s
 		shot->particle.setAcceleration(0.0f, -20.0f, 0.0f);
@@ -87,6 +121,7 @@ void BallisticDemo::fire()
 		break;
 
 	case BallisticDemo::ShotType::FIREBALL:
+		std::cout << "shotType FIREBALL" << std::endl;
 		shot->particle.setMass(1.0f); // 1.0kg - mostly blast damage
 		shot->particle.setVelocity(0.0f, 0.0f, 10.0f); // 5m/s
 		shot->particle.setAcceleration(0.0f, 0.6f, 0.0f); // Floats up
@@ -94,10 +129,11 @@ void BallisticDemo::fire()
 		break;
 
 	case BallisticDemo::ShotType::LASER:
+		std::cout << "shotType LASER" << std::endl;
 		// Note that this is the kind of laser bolt seen in films,
 		// not a realistic laser beam!
 		shot->particle.setMass(0.1f); // 0.1kg - almost no weight
-		shot->particle.setVelocity(0.0f, 0.0f, 100.0f); // 100m/s
+		shot->particle.setVelocity(0.0f, 0.0f, 0.1f); // 100m/s
 		shot->particle.setAcceleration(0.0f, 0.0f, 0.0f); // No gravity
 		shot->particle.setDamping(0.99f);
 		break;
@@ -107,6 +143,7 @@ void BallisticDemo::fire()
 	// Set the data common to all particle types
 	shot->particle.setPosition(0.0f, 1.5f, 0.0f);
 	shot->type = currentShotType;
+
 
 	// Clear the force accumulators
 	shot->particle.clearAccumulator();
@@ -124,7 +161,7 @@ void BallisticDemo::update()
 			shot->particle.integrate(1);
 
 			if (shot->particle.getPosition().y < 0.0f ||
-				shot->particle.getPosition().z > 200.f)
+				shot->particle.getPosition().z > 10.f)
 			{
 				shot->type = BallisticDemo::ShotType::UNUSED;
 			}
@@ -138,9 +175,24 @@ void BallisticDemo::update()
 
 void BallisticDemo::display(Camera camera)
 {
-	//meshes.Draw(shaderProgram, camera);
-	//model.Draw(asteroidShaderProgram, camera);
-	meshes.Draw(asteroidShaderProgram, camera);
+	for (unsigned int i = 0; i < ammoRounds; i++)
+	{
+		if (ammo[i].type != BallisticDemo::ShotType::UNUSED)
+		{
+			// the matrix that stores the new position of the mesh
+			// then some operations are done to take the mesh to
+			// the desired location
+			glm::mat4 model = glm::mat4(1.0f);
+			cyclone::Particle p = ammo[i].particle;
+			
+			//std::cout << "Drawing " << i << " " << p.print() << std::endl;
+			model = glm::translate(model, glm::vec3(p.getPosition().x, p.getPosition().x, p.getPosition().z));
+			//meshes[i].Draw(shaderProgram, camera, glm::mat4(1.0f), model);
+
+			models[i].Draw(shaderProgram, camera, model);
+		}
+
+	}
 }
 
 
@@ -156,12 +208,12 @@ void BallisticDemo::init(Lights lightSource)
 	};
 
 	// Generates Shader object using shaders default.vert and default.frag
-	asteroidShaderProgram = Shader("resources/shaders/instancing.vert", "resources/shaders/default.frag");
 	shaderProgram = Shader("resources/shaders/default.vert", "resources/shaders/default.frag");
 
-	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
-	initMeshes(tex);
-
+	//std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
+	//initMeshes(tex);
+	std::string path = "resources/models/Sphere/sphere.gltf";
+	initModel(path);
 
 	// Take care of all the light related things
 	glm::vec4 lightColor = lightSource.getLightColor();
@@ -171,14 +223,11 @@ void BallisticDemo::init(Lights lightSource)
 	glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
-	asteroidShaderProgram.Activate();
-	glUniform4f(glGetUniformLocation(asteroidShaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-	glUniform3f(glGetUniformLocation(asteroidShaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+	
 }
 
 
-
-void BallisticDemo::initMeshes(std::vector <Texture> tex)
+void BallisticDemo::initMeshesInstancing(std::vector <Texture> tex)
 {
 	// Radius of circle around which asteroids orbit
 	float radius = 100.0f;
@@ -197,40 +246,55 @@ void BallisticDemo::initMeshes(std::vector <Texture> tex)
 
 		// Holds transformations before multiplying them
 		glm::vec3 tempTranslation;
-		//glm::quat tempRotation;
-		//glm::vec3 tempScale;
 
 		// Generates a translation near a circle of radius "radius"
 		tempTranslation = glm::vec3(y, z, x);
 
 
-		// Generates random rotations
-		//tempRotation = glm::quat(1.0f, randf(), randf(), randf());
-		// Generates random scales
-		//tempScale = 0.1f * glm::vec3(randf(), randf(), randf());
-
 		// Initialize matrices
 		glm::mat4 trans = glm::mat4(1.0f);
-		//glm::mat4 rot = glm::mat4(1.0f);
-		//glm::mat4 sca = glm::mat4(1.0f);
 
 		// Transform the matrices to their correct form
 		trans = glm::translate(trans, tempTranslation);
-		//rot = glm::mat4_cast(tempRotation);
-		//sca = glm::scale(sca, tempScale);
 
 		// Push matrix transformation
 		instanceMatrix.push_back(trans);// *rot* sca);
 	}
 
-	
+
 
 	// Store mesh data in vectors for the mesh
 	std::vector <Vertex> verts(verticesBallisticDemo, verticesBallisticDemo + sizeof(verticesBallisticDemo) / sizeof(Vertex));
 	std::vector <GLuint> ind(indicesBallisticDemo, indicesBallisticDemo + sizeof(indicesBallisticDemo) / sizeof(GLuint));
 
-	meshes = Mesh(verts, ind, tex, ammoRounds, instanceMatrix);
+	meshes.push_back(Mesh(verts, ind, tex, ammoRounds, instanceMatrix));
 
 	//std::string asteroidPath = "resources/models/asteroid/scene.gltf";
 	//model = Model((asteroidPath).c_str(), ammoRounds, instanceMatrix);
+}
+
+
+
+void BallisticDemo::initMeshes(std::vector <Texture> tex)
+{
+	// Store mesh data in vectors for the mesh
+	std::vector <Vertex> verts(verticesBallisticDemo, verticesBallisticDemo + sizeof(verticesBallisticDemo) / sizeof(Vertex));
+	std::vector <GLuint> ind(indicesBallisticDemo, indicesBallisticDemo + sizeof(indicesBallisticDemo) / sizeof(GLuint));
+
+	for (unsigned int i = 0; i < ammoRounds; i++)
+	{
+		meshes.push_back(Mesh(verts, ind, tex));
+		std::cout << "Adding mesh to list " << meshes.size() << std::endl;
+	}
+}
+
+
+void BallisticDemo::initModel(std::string path)
+{
+	for (unsigned int i = 0; i < ammoRounds; i++)
+	{
+		std::cout << "Creating model " << i << std::endl;
+		models.push_back(Model((path).c_str()));
+		std::cout << "Adding mesh to list " << meshes.size() << std::endl;
+	}
 }

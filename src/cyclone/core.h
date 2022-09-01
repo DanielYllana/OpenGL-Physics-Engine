@@ -1,10 +1,13 @@
 
-#include <math.h>
+
+
 
 #ifndef CYCLONE_CORE_H
 #define CYCLONE_CORE_H
-
+#include <math.h>
+#include <string>
 #include "precision.h"
+
 
 
 namespace cyclone {
@@ -208,6 +211,20 @@ namespace cyclone {
 		/** Zero all the components of the vector. */
 		void clear() {
 			x = y = z = 0;
+		}
+
+		
+		std::string print()
+		{
+			std::string str = "";
+			str += std::to_string(x);
+			str += ", ";
+			str += std::to_string(y);
+			str += ", ";
+			str += std::to_string(z);
+			str += ") ";
+
+			return str;
 		}
 
 

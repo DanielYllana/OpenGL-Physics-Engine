@@ -2,6 +2,7 @@
 #include<math.h>
 #include "../../OpenGL/Model.h"
 #include "glm/gtx/string_cast.hpp"
+#include "../../extra/helper.h"
 
 
 const unsigned int width = 800;
@@ -44,10 +45,6 @@ unsigned int skyboxIndices[] =
 	6, 2, 3
 };
 
-float randf()
-{
-	return -1.0f + (rand() / (RAND_MAX / 2.0f));
-}
 
 int main3() {
 
@@ -64,7 +61,7 @@ int main3() {
 }
 
 
-int main()
+int main2()
 {
 	// Initialize GLFW
 	glfwInit();
@@ -243,8 +240,8 @@ int main()
 	for (unsigned int i = 0; i < number; i++)
 	{
 		// Generates x and y for the function x^2 + y^2 = radius^2 which is a circle
-		float x = randf();
-		float finalRadius = radius + randf() * radiusDeviation;
+		float x = Helper::randf();
+		float finalRadius = radius + Helper::randf() * radiusDeviation;
 		float y = ((rand() % 2) * 2 - 1) * sqrt(1.0f - x * x);
 
 		// Holds transformations before multiplying them
@@ -253,21 +250,21 @@ int main()
 		glm::vec3 tempScale;
 
 		// Makes the random distribution more even
-		if (randf() > 0.5f)
+		if (Helper::randf() > 0.5f)
 		{
 			// Generates a translation near a circle of radius "radius"
-			tempTranslation = glm::vec3(y * finalRadius, randf(), x * finalRadius);
+			tempTranslation = glm::vec3(y * finalRadius, Helper::randf(), x * finalRadius);
 		}
 		else
 		{
 			// Generates a translation near a circle of radius "radius"
-			tempTranslation = glm::vec3(x * finalRadius, randf(), y * finalRadius);
+			tempTranslation = glm::vec3(x * finalRadius, Helper::randf(), y * finalRadius);
 		}
 
 		// Generates random rotations
-		tempRotation = glm::quat(1.0f, randf(), randf(), randf());
+		tempRotation = glm::quat(1.0f, Helper::randf(), Helper::randf(), Helper::randf());
 		// Generates random scales
-		tempScale = 0.1f * glm::vec3(randf(), randf(), randf());
+		tempScale = 0.1f * glm::vec3(Helper::randf(), Helper::randf(), Helper::randf());
 
 		// Initialize matrices
 		glm::mat4 trans = glm::mat4(1.0f);

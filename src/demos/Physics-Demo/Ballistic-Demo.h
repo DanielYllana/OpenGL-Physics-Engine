@@ -2,6 +2,7 @@
 #include "../../OpenGL/Mesh.h"
 #include "../../OpenGL/Lights.h"
 #include "../../OpenGL/Model.h"
+#include<GLFW/glfw3.h>
 
 
 
@@ -24,18 +25,18 @@ private:
 		unsigned startTime;
 	};
 
-	const static unsigned ammoRounds = 5;
+	const static unsigned int ammoRounds = 15;
 
 
 
 
-
+	bool canFire = true;
 	AmmoRound ammo[ammoRounds];
 
 	ShotType currentShotType;
 
-	Mesh meshes;
-	Model model;
+	std::vector<Mesh> meshes;
+	std::vector<Model> models;
 
 	void fire();
 
@@ -43,6 +44,8 @@ private:
 	Shader asteroidShaderProgram;
 
 	void initMeshes(std::vector <Texture> tex);
+	void initMeshesInstancing(std::vector <Texture> tex);
+	void initModel(std::string path);
 
 public:
 
@@ -51,9 +54,7 @@ public:
 
 	void update();
 
-	void mouse(int button, int state, int x, int y);
-
-	void key(unsigned char key);
+	void Inputs(GLFWwindow* window);
 
 	void init(Lights lightSource);
 

@@ -1,12 +1,16 @@
-#include "../../OpenGL/Mesh.h"
-#include "../Physics-Demo/Ballistic-Demo.h"
-#include "../../OpenGL/Lights.h"
+#include<math.h>
+#include "../../OpenGL/Model.h"
+#include "glm/gtx/string_cast.hpp"
+#include "../../extra/helper.h"
 
 
-const int width = 800, height = 800;
+const unsigned int width = 800;
+const unsigned int height = 800;
 
-int launcher()
-{	
+
+
+int main()
+{
 	// Initialize GLFW
 	glfwInit();
 
@@ -18,9 +22,8 @@ int launcher()
 	// So that means we only have the modern functions
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-
 	// Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
-	GLFWwindow* window = glfwCreateWindow(width, height, "Cyclone > Ballistic Demo", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(width, height, "YoutubeOpenGL", NULL, NULL);
 	// Error check if the window fails to create
 	if (window == NULL)
 	{
@@ -28,7 +31,6 @@ int launcher()
 		glfwTerminate();
 		return -1;
 	}
-
 	// Introduce the window into the current context
 	glfwMakeContextCurrent(window);
 
@@ -38,30 +40,31 @@ int launcher()
 	// In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800
 	glViewport(0, 0, width, height);
 
-	
-	BallisticDemo demo;
 
-	Lights lightSource;
-	lightSource.init();
 
-	demo.init(lightSource);
 
+
+	// Generates Shader objects
+	Shader shaderProgram("resources/shaders/default.vert", "resources/shaders/default.frag");
+	Shader gridShader("resources/shaders/grid.vert", "resources/shaders/grid.frag");
 
 	
 
 	// Enables the Depth Buffer
 	glEnable(GL_DEPTH_TEST);
+
 	// Enables Cull Facing
 	glEnable(GL_CULL_FACE);
 	// Keeps front faces
 	glCullFace(GL_FRONT);
 	// Uses counter clock-wise standard
-	//glFrontFace(GL_CCW);
+	glFrontFace(GL_CCW);
 
 	// Creates camera object
-	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 5.0f));
+	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
 
+	
 	// Variables to create periodic event for FPS displaying
 	double prevTime = 0.0;
 	double crntTime = 0.0;
@@ -91,7 +94,12 @@ int launcher()
 			prevTime = crntTime;
 			counter = 0;
 
+			// Use this if you have disabled VSync
+			//camera.Inputs(window);
 		}
+
+		gridShader.Activate();
+		glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.Position.x, camera.Position.y, camera.Position.z);
 
 
 		// Specify the color of the background
@@ -99,17 +107,14 @@ int launcher()
 		// Clean the back buffer and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-		// Handles camera inputs
+		// Handles camera inputs (delete this if you have disabled VSync)
 		camera.Inputs(window);
 		// Updates and exports the camera matrix to the Vertex Shader
-		camera.updateMatrix(45.0f, 0.1f, 100.0f);
+		camera.updateMatrix(45.0f, 0.1f, 1000.0f);
 
 
-		demo.Inputs(window);
-		demo.update();
-		demo.display(camera);
-		lightSource.display(camera);
+		
+
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
@@ -120,23 +125,10 @@ int launcher()
 
 
 	// Delete all the objects we've created
-	demo.destroy();
-	lightSource.destroy();
-
+	shaderProgram.Delete();
 	// Delete window before ending the program
 	glfwDestroyWindow(window);
 	// Terminate GLFW before ending the program
 	glfwTerminate();
-
 	return 0;
-}
-
-
-
-int main()
-{
-	return launcher();
-
-
-
 }

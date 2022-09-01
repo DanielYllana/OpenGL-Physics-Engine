@@ -119,6 +119,34 @@ namespace cyclone {
 		void getAcceleration(Vector3* acceleration) const;
 		Vector3 getAcceleration() const;
 
+
+
+
+
+		std::string print(bool pos = true, bool vel = false, bool acc = false)
+		{
+			std::string str = "";
+
+			if (pos)
+			{
+				str += "Position (";
+				str += position.print();
+			}
+
+			if (vel)
+			{
+				str += "Velocity (";
+				str += velocity.print();
+			}
+
+			if (acc)
+			{
+				str += "Acceleration (";
+				str += acceleration.print();
+			}
+
+			return str;
+		}
 	};
 }
 
