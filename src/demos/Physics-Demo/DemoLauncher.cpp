@@ -133,7 +133,7 @@ int launcher()
 
 
 
-int main()
+int main4()
 {
 	return launcher();
 

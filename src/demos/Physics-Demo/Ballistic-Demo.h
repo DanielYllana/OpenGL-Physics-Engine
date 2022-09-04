@@ -37,6 +37,7 @@ private:
 
 	std::vector<Mesh> meshes;
 	std::vector<Model> models;
+	Mesh groundMesh;
 
 	void fire();
 
@@ -46,6 +47,7 @@ private:
 	void initMeshes(std::vector <Texture> tex);
 	void initMeshesInstancing(std::vector <Texture> tex);
 	void initModel(std::string path);
+	void initGround(std::vector<Texture> tex);
 
 public:
 

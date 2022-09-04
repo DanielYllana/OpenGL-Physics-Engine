@@ -18,6 +18,8 @@ Vertex verticesBallisticDemo[] =
 };
 */
 
+
+
 Vertex verticesBallisticDemo[] =
 { //               COORDINATES           /            COLORS          /           TexCoord         /       NORMALS         //
 	Vertex{glm::vec3(-0.1f , 0.5f,  0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
@@ -28,6 +30,14 @@ Vertex verticesBallisticDemo[] =
 	Vertex{glm::vec3(-0.1f,  0.7f, -0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
 	Vertex{glm::vec3(0.1f,  0.7f, -0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
 	Vertex{glm::vec3(0.1f,  0.7f,  0.1f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)}
+};
+
+Vertex groundVertices[] =
+{ //               COORDINATES           /            COLORS          /           TexCoord         /       NORMALS         //
+	Vertex{glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
+	Vertex{glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
+	Vertex{glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
+	Vertex{glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f)}
 };
 
 // Indices for vertices order
@@ -47,6 +57,12 @@ GLuint indicesBallisticDemo[] =
 	4, 6, 7
 };
 
+
+GLuint indicesGround[] =
+{
+	0, 3, 2,
+	2, 1, 0
+};
 
 
 
@@ -187,12 +203,14 @@ void BallisticDemo::display(Camera camera)
 			
 			//std::cout << "Drawing " << i << " " << p.print() << std::endl;
 			model = glm::translate(model, glm::vec3(p.getPosition().x, p.getPosition().x, p.getPosition().z));
+			model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 			//meshes[i].Draw(shaderProgram, camera, glm::mat4(1.0f), model);
 
 			models[i].Draw(shaderProgram, camera, model);
 		}
-
 	}
+
+	groundMesh.Draw(shaderProgram, camera);
 }
 
 
@@ -210,10 +228,13 @@ void BallisticDemo::init(Lights lightSource)
 	// Generates Shader object using shaders default.vert and default.frag
 	shaderProgram = Shader("resources/shaders/default.vert", "resources/shaders/default.frag");
 
-	//std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
+	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
 	//initMeshes(tex);
+	initGround(tex);
+
 	std::string path = "resources/models/Sphere/sphere.gltf";
 	initModel(path);
+	
 
 	// Take care of all the light related things
 	glm::vec4 lightColor = lightSource.getLightColor();
@@ -222,8 +243,6 @@ void BallisticDemo::init(Lights lightSource)
 	shaderProgram.Activate();
 	glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
-
-	
 }
 
 
@@ -288,6 +307,14 @@ void BallisticDemo::initMeshes(std::vector <Texture> tex)
 	}
 }
 
+
+void BallisticDemo::initGround(std::vector<Texture> tex) 
+{
+	// Store mesh data in vectors for the mesh
+	std::vector <Vertex> verts(groundVertices, groundVertices + sizeof(groundVertices) / sizeof(Vertex));
+	std::vector <GLuint> ind(indicesGround, indicesGround + sizeof(indicesGround) / sizeof(GLuint));
+	groundMesh = Mesh(verts, ind, tex);
+}
 
 void BallisticDemo::initModel(std::string path)
 {
